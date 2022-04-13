@@ -1,31 +1,27 @@
 package gui;
 
 import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import nutsAndBolts.PieceSquareColor;
 
 /**
  * @author francoiseperrin
  * 
- * Classe d'affichage des carrés du damier
- * leur couleur est initialisé par les couleurs par défaut du jeu
+ * Classe d'affichage des carrÃ©s du damier
+ * leur couleur est initialisÃ© par les couleurs par dÃ©faut du jeu
  *
  */
 class SquareGui extends BorderPane implements CheckersSquareGui {
 
-	// ToDo Atelier 2
+	public SquareGui(Color color){
+		super();
+		this.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+	}
+
 
 	/**
-	 *Retourne l'indice du carré sur la grille (N° de 0 à 99)
+	 * Retourne l'indice du carrÃ© sur la grille (NÂ° de 0 Ã  99)
 	 */
 	@Override
 	public int getSquareCoord() {

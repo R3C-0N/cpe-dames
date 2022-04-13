@@ -31,31 +31,31 @@ public class Launcher extends Application {
 		super.init();
 		
 		///////////////////////////////////////////////////////////////////////////////////////
-		// Objet qui g�re les aspects m�tier du jeu de dame :
+		// Objet qui gère les aspects métier du jeu de dame :
 		///////////////////////////////////////////////////////////////////////////////////////
 		
 		this.model = new Model();
 
 		
 		///////////////////////////////////////////////////////////////////////////////////////
-		// Objet qui contr�le les actions de la vue et les transmet au model
-		// il renvoie les r�ponses du model � la vue
+		// Objet qui contréle les actions de la vue et les transmet au model
+		// il renvoie les réponses du model à la vue
 		///////////////////////////////////////////////////////////////////////////////////////
 		
 		this.controller = new Controller();
 		
 		
 		///////////////////////////////////////////////////////////////////////////////////////
-		// Fen�tre dans laquelle se dessine le damier est �cout�e par controller
+		// Fenêtre dans laquelle se dessine le damier est gérée par controller
 		///////////////////////////////////////////////////////////////////////////////////////
 				
 		this.view = new View(controller);
 		
-		// Controller doit pouvoir invoquer les m�thodes du model
-		// il enverra ensuite des instructions � view qui relaiera � son objet Board
+		// Controller doit pouvoir invoquer les méthodes du model
+		// il enverra ensuite des instructions à view qui relaiera à son objet Board
 		// En mode Client/Server 
-		// Les actions devront �tre propag�es sur les vues de chaque client et non pas seulement 
-		// sur celle qui a initi� l'action 
+		// Les actions devront être propagées sur les vues de chaque client et non pas seulement
+		// sur celle qui a initié l'action
 		 ((Mediator) controller).setView(view);
 		 ((Mediator) controller).setModel(model);
 	}

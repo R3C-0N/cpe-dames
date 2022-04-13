@@ -1,19 +1,22 @@
 package model;
 
+import nutsAndBolts.PieceSquareColor;
+
 import java.util.LinkedList;
 import java.util.List;
-
-import nutsAndBolts.PieceSquareColor;
 
 public class PawnModel implements PieceModel {
 
 	private Coord coord;
 	private PieceSquareColor pieceColor;
 
+	private int direction;
+
 	public PawnModel(Coord coord, PieceSquareColor pieceColor) {
 		super();
 		this.coord = coord;
 		this.pieceColor = pieceColor;
+		this.direction = PieceSquareColor.BLACK.equals(this.getPieceColor()) ? -1 : 1;
 	}
 
 	@Override
@@ -43,38 +46,53 @@ public class PawnModel implements PieceModel {
 	 */
 	@Override
 	public String toString() {
-		return String.format("[%s[%s , %s]]", this.pieceColor == PieceSquareColor.BLACK ? 'B' : 'W',
-				this.coord.getLigne(), this.coord.getColonne());
+		return String.format("[%s [%s , %s]]",
+				this.pieceColor == PieceSquareColor.BLACK ? 'B' : 'W',
+				this.coord.getColonne(),
+				this.coord.getLigne()
+		);
 	}
 
 	@Override
 	public void move(Coord coord) {
-		// If isMoveOk()
-		// if((Math.abs(this.getColonne() - coord.getColonne()) > 1) ? isMoveOk(coord,
-		// true) : isMoveOk(coord, false))
 		this.coord = coord;
 	}
 
 	@Override
 	public boolean isMoveOk(Coord targetCoord, boolean isPieceToCapture) {
-		if(this.getColonne() == targetCoord.getColonne())
-			return false;
-		
-		if(this.getLigne() == targetCoord.getLigne())
-			return false;
+		boolean ret = false;
 
-		if(isPieceToCapture != ((Math.abs(this.getColonne() - coord.getColonne()) > 1) ? true : false))
-			return false;
+		int colDistance = targetCoord.getColonne() - this.getColonne();
+		int ligDistance = targetCoord.getLigne() - this.getLigne();
+		int deltaLig = (int) Math.signum(ligDistance);
 
-		return true;
+		// Cas d'un déplacement en diagonale
+		if (Math.abs(colDistance) == Math.abs(ligDistance)){
+
+			// sans prise
+			if (!isPieceToCapture) {
+				if (deltaLig == this.direction && Math.abs(colDistance) == 1) {
+					ret = true;
+				}
+			}
+			// avec prise
+			else {
+				if (Math.abs(colDistance) == 2) {
+					ret = true;
+				}
+			}
+		}
+		return ret;
 	}
 
 	@Override
 	public List<Coord> getCoordsOnItinerary(Coord targetCoord) {
 
-		List<Coord> coordsOnItinery = new LinkedList<Coord>();
+		List<Coord> coordsOnItinery = new LinkedList<>();
 
-		// TODO Atelier 2
+		for	(int i = 1; i < Math.abs(targetCoord.getLigne() - this.getLigne()); i++) {
+			coordsOnItinery.add(new Coord((char) (this.getColonne() + i * this.direction), this.getLigne() + i * this.direction));
+		}
 
 		return coordsOnItinery;
 	}

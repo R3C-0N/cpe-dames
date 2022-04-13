@@ -81,7 +81,7 @@ public class Coord implements Comparable<Coord> {
 		return true;
 	}
 
-	//Correction
+	//Correctionf
 	@Override
 	public int hashCode() {
 		final int prime = 31;

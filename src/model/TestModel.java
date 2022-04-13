@@ -8,7 +8,7 @@ import nutsAndBolts.PieceSquareColor;
  * @author francoiseperrin
  *
  * Programme de test des classes du model
- * Utile, tant que M V C non connect�s (atelier 2)
+ * Utile, tant que M V C non écoutés (atelier 2)
  */
 public class TestModel {
 
@@ -32,8 +32,8 @@ public class TestModel {
 		System.out.println("c1.equals(c2) ? "+ c1.equals(c2));	// false
 		System.out.println("c1.equals(new Coord('a', 7)) ? "+ c1.equals(new Coord('a', 7)));	// true
 		System.out.println("c1.equals(new String(\"Erreur\")) ? "+ c1.equals(new String("Erreur")));	// false
-		System.out.println("c1.compareTo(c2) ? "+ c1.compareTo(c2) );	// nb n�gatif car c1 < c2
-		System.out.println("c1.compareTo(new Coord('a', 7)) ? "+ c1.compareTo(new Coord('a', 7)) );	// 0 car coords �gales
+		System.out.println("c1.compareTo(c2) ? "+ c1.compareTo(c2) );	// nb négatif car c1 < c2
+		System.out.println("c1.compareTo(new Coord('a', 7)) ? "+ c1.compareTo(new Coord('a', 7)) );	// 0 car coords égales
 //
 //
 //		//////////////////////////////////
@@ -62,7 +62,7 @@ public class TestModel {
 		System.out.println("isMoveOk ('c',5) --> ('e',7) = " 
 							+ pieceModel2.isMoveOk(new Coord('e',7),false)); // false : depl. de 2 cases sans prise
 		System.out.println("hasThisCoord ('c',5)  = " 
-							+ pieceModel2.hasThisCoord(new Coord('c',5))); 	 // true : ('c',5) = Coord de l'objet r�f�renc� par pieceModel2
+							+ pieceModel2.hasThisCoord(new Coord('c',5))); 	 // true : ('c',5) = Coord de l'objet référencé par pieceModel2
 //
 //
 //		//////////////////////////////////
@@ -88,13 +88,13 @@ public class TestModel {
 //		//////////////////////////////////
 //
 //		System.out.println("\nTest classe Model");
-//		Model model = new Model();	// constructeur cr�e model et l'affiche
+//		Model model = new Model();	// constructeur crée model et l'affiche
 //		System.out.println("isPieceMoveable ('b',4) -> ('c',5)  = " 
 //							+ model.isPieceMoveable(new Coord('b',4), new Coord('c',5)));	// true
 //		System.out.println("isPieceMoveable ('c',7) -> ('d',6) = " 
 //							+ model.isPieceMoveable(new Coord('c',7),  new Coord('d',6)));	// false, tour des blancs
 //		System.out.println("isPieceMoveable ('c',3) -> ('d',4)  = " 
-//							+ model.isPieceMoveable(new Coord('c',3),  new Coord('d',4)));	// false, case occup�e
+//							+ model.isPieceMoveable(new Coord('c',3),  new Coord('d',4)));	// false, case occupée
 //		System.out.println("isPieceMoveable ('b',4) -> ('w',12) = " 
 //							+ model.isPieceMoveable(new Coord('b',4),  new Coord('w',12)));	// false, hors damier
 //
@@ -108,21 +108,21 @@ public class TestModel {
 //		System.out.println("isPieceMoveable ('c',7) -> ('d',6) = " + 
 //							model.isPieceMoveable(new Coord('c',7), new Coord('d',6)));	// true c'est bien au joueur noir de jouer
 //		System.out.println("isMovePiecePossible ('c',7) -> ('c',6) = " + 
-//							model.isMovePiecePossible(new Coord('c',7), new Coord('c',6), false));	// false pas d�placement en diagonale
+//							model.isMovePiecePossible(new Coord('c',7), new Coord('c',6), false));	// false pas déplacement en diagonale
 //	
 //		
-//		// on recr�e un objet Model sur lequel aucun mouvement n'a �t� effectu� 
-//		// pour tester m�thode publique moveCapturePromote()
-//		// normalement elle doit �tre fonctionnelle sans modification si vous avez bien test� tout ce qui pr�c�de
-//		System.out.println("\n\nTest m�thode publique moveCapturePromote() du Model");
+//		// on recrée un objet Model sur lequel aucun mouvement n'a été effectué
+//		// pour tester méthode publique moveCapturePromote()
+//		// normalement elle doit être fonctionnelle sans modification si vous avez bien testé tout ce qui précéde
+//		System.out.println("\n\nTest méthode publique moveCapturePromote() du Model");
 //		model = new Model();	
 //		System.out.println("moveCapturePromote ('b',4) -> ('c',5)  = move OK - Cf. damier ci-dessous ");
 //							model.moveCapturePromote(new Coord('b',4), new Coord('c',5)); 
 //		System.out.println("moveCapturePromote ('e',7) -> ('d',6)  = move OK - Cf. damier ci-dessous ");
 //				model.moveCapturePromote(new Coord('e',7), new Coord('d',6)); 
-//		System.out.println("moveCapturePromote ('c',5) -> ('e',7)  = move KO on ne g�re pas encore les prises - Cf. damier ci-dessous ");
+//		System.out.println("moveCapturePromote ('c',5) -> ('e',7)  = move KO on ne gère pas encore les prises - Cf. damier ci-dessous ");
 //				model.moveCapturePromote(new Coord('c',5), new Coord('e',7)); 
-//		System.out.println("moveCapturePromote ('h',4) -> ('h',5)  = move KO d�placement vertical - Cf. damier ci-dessous ");
+//		System.out.println("moveCapturePromote ('h',4) -> ('h',5)  = move KO déplacement vertical - Cf. damier ci-dessous ");
 //				model.moveCapturePromote(new Coord('h',4), new Coord('h',5)); 
 	
 	}

@@ -1,15 +1,15 @@
 package controller;
 
-import java.io.Serializable;
-
 import nutsAndBolts.PieceSquareColor;
+
+import java.io.Serializable;
 
 /**
  * @author francoise.perrin
  * 
- * Objet créé par le Model dans méthode MoveCapturePromote()
- * à destination du Controller qui en extrait les données pour créer
- * l'objet InputViewModel à destination de la View
+ * Objet crÃ© par le Model dans mÃ©thode MoveCapturePromote()
+ * Ã  destination du Controller qui en extrait les donnÃ©es pour crÃ©er
+ * l'objet InputViewModel Ã  destination de la View
  * 
  */
 public class OutputModelData<T> implements Serializable{
