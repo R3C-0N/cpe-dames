@@ -1,10 +1,10 @@
 package model;
 
 
-import nutsAndBolts.PieceSquareColor;
-
 import java.util.Collection;
 import java.util.List;
+
+import nutsAndBolts.PieceSquareColor;
 
 /**
  * @author francoise.perrin
@@ -30,26 +30,25 @@ public class ModelImplementor {
 
 	public PieceSquareColor getPieceColor(Coord coord) {
 		PieceSquareColor color = null;
+		PieceModel piece = this.findPiece(coord);
 
-		// TODO Atelier 1
-		
+		if (piece != null) {
+			color = piece.getPieceColor();
+		}
 		return color;
 	}
 
 	public boolean isPiecehere(Coord coord) {
-		boolean isPiecehere = false;
-
-		// TODO Atelier 1
-		
-		return isPiecehere;
+		return this.findPiece(coord) != null;
 	}
 
 	public boolean isMovePieceOk(Coord initCoord, Coord targetCoord, boolean isPieceToTake) {
 
 		boolean isMovePieceOk = false;
-
-		// TODO Atelier 1
-		
+		PieceModel initPiece = this.findPiece(initCoord);
+		if (initPiece != null) {
+			isMovePieceOk = initPiece.isMoveOk(targetCoord, isPieceToTake ) ;
+		}
 		return isMovePieceOk;
 	}
 
@@ -57,9 +56,13 @@ public class ModelImplementor {
 	public boolean movePiece(Coord initCoord, Coord targetCoord) {
 
 		boolean isMovePieceDone = false;
+		PieceModel initPiece = this.findPiece(initCoord);
+		if (initPiece != null) {
 
-		// TODO Atelier 1
-		
+			// d�placement pi�ce
+			initPiece.move(targetCoord) ;
+			isMovePieceDone = true;
+		}
 		return isMovePieceDone;
 	}
 
@@ -83,12 +86,16 @@ public class ModelImplementor {
 	 * @param coord
 	 * @return la pi�ce qui se trouve aux coordonn�es indiqu�es
 	 */
-	 PieceModel findPiece(Coord coord) {		// TODO : mettre en "private" apr�s test unitaires
-		 
+	 PieceModel findPiece(Coord coord) {		// TODO : remettre en "private" apr�s test unitaires
 		PieceModel findPiece = null;
 
-		// TODO Atelier 1
-		
+		for(PieceModel piece : this.pieces) {
+
+			if(coord != null && piece.hasThisCoord(coord)) {
+				findPiece = piece;
+				break;
+			}
+		}
 		return findPiece;
 	}
 
@@ -107,16 +114,16 @@ public class ModelImplementor {
 		String st = "";
 		String[][] damier = new String[ModelConfig.LENGTH][ModelConfig.LENGTH];
 
-//		// cr�ation d'un tableau 2D avec les noms des pi�ces � partir de la liste de pi�ces
-//		for(PieceModel piece : this.pieces) {
-//
-//			PieceSquareColor color = piece.getPieceColor();
-//			String stColor = (PieceSquareColor.WHITE.equals(color) ? "--B--" : "--N--" );
-//
-//			int col = piece.getColonne() -'a';
-//			int lig = piece.getLigne() -1;
-//			damier[lig][col ] = stColor ;
-//		}
+		// cr�ation d'un tableau 2D avec les noms des pi�ces � partir de la liste de pi�ces
+		for(PieceModel piece : this.pieces) {
+
+			PieceSquareColor color = piece.getPieceColor();
+			String stColor = (PieceSquareColor.WHITE.equals(color) ? "--B--" : "--N--" );
+
+			int col = piece.getColonne() -'a';
+			int lig = piece.getLigne() -1;
+			damier[lig][col ] = stColor ;
+		}
 
 		// Affichage du tableau formatt�
 		st = "     a      b      c      d      e      f      g      h      i      j\n";

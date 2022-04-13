@@ -1,23 +1,30 @@
 package gui;
 
-import javafx.geometry.Insets;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import nutsAndBolts.PieceSquareColor;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
+import javafx.geometry.Insets;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
+import nutsAndBolts.PieceSquareColor;
 
 
 /**
  * @author francoise.perrin
  * 
  * Cette classe est responsable de :
- * 		crï¿½er les cases noires et blanches et les positionner au bon endroit sur le damier
- * 		crï¿½er les pions noirs et blancs en leur affectant une image et les positionner sur leur case initiale
+ * 		créer les cases noires et blanches et les positionner au bon endroit sur le damier
+ * 		créer les pions noirs et blancs en leur affectant une image et les positionner sur leur case initiale
  *		promouvoir les pions en dame en changeant leur image
  */
 public class GuiFactory {
@@ -27,14 +34,14 @@ public class GuiFactory {
 	 * @param col
 	 * @param ligne
 	 * @return Une case noire ou blanche en alternance
-	 * la case en bas ï¿½ gauche est noire
+	 * la case en bas à gauche est noire
 	 */
 	public static BorderPane createSquare(int col, int ligne) {
 		
 		BorderPane square = null;
 		PieceSquareColor squareColor;
 
-		// sï¿½lection de la couleur de la case
+		// sélection de la couleur de la case
 		if ((col % 2 == 0 && ligne % 2 == 0) || (col % 2 != 0 && ligne % 2 != 0)) {
 			squareColor = PieceSquareColor.WHITE;
 		} else {
@@ -42,7 +49,7 @@ public class GuiFactory {
 		}
 		square = new BorderPane();
 		
-		// la couleur est dï¿½finie par les valeurs par dï¿½faut de configuration
+		// la couleur est définie par les valeurs par défaut de configuration
 		Color color = PieceSquareColor.BLACK.equals(squareColor) ? GuiConfig.CASEBLACK : GuiConfig.CASEWHITE;
 		square.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
 		square.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
@@ -53,7 +60,7 @@ public class GuiFactory {
 	/**
 	 * @param col
 	 * @param ligne
-	 * @return une PieceGui si col/ligne correspond ï¿½ cases noires
+	 * @return une PieceGui si col/ligne correspond à cases noires
 	 * des 4 lignes du haut (piece noire) et du bas du damier (piece blanche)
 	 */
 	public static ImageView createPiece(int col, int ligne) {
@@ -80,7 +87,7 @@ public class GuiFactory {
 	/**
 	 * @param piece
 	 * @param promotedPieceColor
-	 * la promotion consiste ï¿½ changer l'image de la PieceGui
+	 * la promotion consiste à changer l'image de la PieceGui
 	 */
 	public static void PromotePiece(ImageView piece, PieceSquareColor promotedPieceColor) {
 
@@ -91,7 +98,7 @@ public class GuiFactory {
 	/**
 	 * @param pieceColor
 	 * @param ispawn
-	 * @return une image crï¿½ï¿½e ï¿½ partir d'un fichier png
+	 * @return une image créée à partir d'un fichier png
 	 */
 	private static Image createImage(PieceSquareColor pieceColor, boolean ispawn) {
 

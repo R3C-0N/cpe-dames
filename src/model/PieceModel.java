@@ -1,9 +1,9 @@
 package model;
 
 
-import nutsAndBolts.PieceSquareColor;
-
 import java.util.List;
+
+import nutsAndBolts.PieceSquareColor;
 
 public interface PieceModel {
 	
@@ -16,13 +16,13 @@ public interface PieceModel {
 	
 	/**
 	 * @param coord
-	 * @return true si la piï¿½ce est aux coordonnï¿½es passï¿½es en paramï¿½tre
+	 * @return true si la pièce est aux coordonnées passées en paramètre
 	 */
 	public boolean hasThisCoord(Coord coord);
 	
 	/**
 	 * @param coord the coord to set
-	 * le dï¿½placement d'une piï¿½ce change ses coordonnï¿½es
+	 * le déplacement d'une pièce change ses coordonnées
 	 */
 	public void move(Coord coord);
 
@@ -36,13 +36,13 @@ public interface PieceModel {
 	/**
 	 * @param targetCoord
 	 * @param isPieceToCapture
-	 * @return true si le dï¿½placement est lï¿½gal
+	 * @return true si le déplacement est légal
 	 */
 	public boolean isMoveOk(Coord targetCoord, boolean isPieceToCapture);
 
 	/**
 	 * @param targetCoord
-	 * @return liste des coordonnï¿½es des cases traversï¿½es par itinï¿½raire de dï¿½placement
+	 * @return liste des coordonnées des cases traversées par itinéraire de déplacement
 	 */
 	public List<Coord> getCoordsOnItinerary(Coord targetCoord);
 
