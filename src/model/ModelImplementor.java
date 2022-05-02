@@ -44,15 +44,36 @@ public class ModelImplementor {
 	}
 
 	public boolean isMovePieceOk(Coord initCoord, Coord targetCoord, boolean isPieceToTake) {
-
 		boolean isMovePieceOk = false;
 		PieceModel initPiece = this.findPiece(initCoord);
 		if (initPiece != null) {
-			isMovePieceOk = initPiece.isMoveOk(targetCoord, isPieceToTake ) ;
+			isMovePieceOk = initPiece.isMoveOk(targetCoord, isPieceToTake) ;
 		}
 		return isMovePieceOk;
 	}
 
+	public boolean isRaflePossible(Coord initCoord) {
+		PieceModel initPiece = this.findPiece(initCoord);
+		if (initPiece instanceof AbstractPieceModel) {
+			AbstractPieceModel abstractPiece = (AbstractPieceModel) initPiece;
+			List<Coord> rafleCoords = abstractPiece.movePossible();
+			for (Coord coord : rafleCoords) {
+				if (this.isMovePieceOk(initCoord, coord, true)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean isPiecePromotable(Coord coord) {
+		PieceModel piece = this.findPiece(coord);
+		if (piece instanceof AbstractPieceModel) {
+			System.out.println("isPiecePromotable : " + ((AbstractPieceModel) piece).isPromotable());
+			return ((AbstractPieceModel) piece).isPromotable();
+		}
+		return false;
+	}
 
 	public boolean movePiece(Coord initCoord, Coord targetCoord) {
 
@@ -71,18 +92,19 @@ public class ModelImplementor {
 		this.pieces.remove(this.findPiece(pieceToTakeCoord));
 	}
 
+	public void promotePiece(Coord pieceToPromoteCoord) {
+		PieceModel pieceToTake = this.findPiece(pieceToPromoteCoord);
+		this.pieces.remove(pieceToTake);
+		this.pieces.add(new QueenModel(pieceToPromoteCoord, pieceToTake.getPieceColor()));
+		System.out.println("pieces : " + this.pieces);
+	}
+
 	
 	public List<Coord> getCoordsOnItinerary(Coord initCoord, Coord targetCoord) {
 		List<Coord> coordsOnItinerary = new ArrayList<>();
 
-		int directionX = 1;
-		int directionY = 1;
-		if (initCoord.getColonne() > targetCoord.getColonne()) {
-			directionX = -1;
-		}
-		if (initCoord.getLigne() > targetCoord.getLigne()) {
-			directionY = -1;
-		}
+		int directionX = initCoord.getColonne() > targetCoord.getColonne() ? -1 : 1;
+		int directionY = initCoord.getLigne() > targetCoord.getLigne() ? -1 : 1;
 
 		for	(int i = 1; i < Math.abs(initCoord.getLigne() - targetCoord.getLigne()); i++) {
 			coordsOnItinerary.add(new Coord((char) (initCoord.getColonne() + i * directionX), initCoord.getLigne() + i * directionY));
@@ -94,13 +116,12 @@ public class ModelImplementor {
 	
 	/**
 	 * @param coord
-	 * @return la pièe qui se trouve aux coordonnées indiquées
+	 * @return la pièce qui se trouve aux coordonnées indiquées
 	 */
-	 private PieceModel findPiece(Coord coord) {		// TODO : remettre en "private" après test unitaires
+	 public PieceModel findPiece(Coord coord) {
 		PieceModel findPiece = null;
 
 		for(PieceModel piece : this.pieces) {
-
 			if(coord != null && piece.hasThisCoord(coord)) {
 				findPiece = piece;
 				break;

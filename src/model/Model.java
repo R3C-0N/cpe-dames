@@ -79,17 +79,17 @@ public class Model implements BoardGame<Coord> {
 					this.remove(toCapturePieceCoord);
 
 					// promotion éventuelle de la pièce après déplacement
-					if (true) {	// TODO : Test à changer atelier 3
-
-						// TODO atelier 3
+					if (this.isPiecePromotable(targetSquareCoord)) {
+						this.promotePiece(targetSquareCoord);
+						toPromotePieceCoord = targetSquareCoord;
+						toPromotePieceColor = this.currentGamerColor;
 					}
 
 					// S'il n'y a pas eu de prise
 					// ou si une rafle n'est pas possible alors changement de joueur 
-					if (true) {	// TODO : Test à changer atelier 4
+					if (!isPieceToCapture || !this.isRaflePossible(targetSquareCoord)) {	// TODO : Test à changer atelier 4
 						this.switchGamer();
 					}
-
 				}
 			}
 		}
@@ -120,8 +120,9 @@ public class Model implements BoardGame<Coord> {
 
 		bool = 	this.implementor.isPiecehere(toMovePieceCoord) 
 				&& this.implementor.getPieceColor(toMovePieceCoord) == this.currentGamerColor 
-				&& Coord.coordonnees_valides(targetSquareCoord) 
-				&& !this.implementor.isPiecehere(targetSquareCoord) ;
+				&& Coord.coordonneesValides(targetSquareCoord)
+				&& !this.implementor.isPiecehere(targetSquareCoord)
+				&& (Coord.lastMove == null || Coord.lastMove.equals(toMovePieceCoord));
 
 		return bool ;
 	}
@@ -129,13 +130,20 @@ public class Model implements BoardGame<Coord> {
 	/**
 	 * @param toMovePieceCoord
 	 * @param targetSquareCoord
-	 * @return true s'il n'existe qu'1 seule pièe à prendre d'une autre couleur sur la trajectoire
+	 * @return true s'il n'existe qu'1 seule pièCe à prendre d'une autre couleur sur la trajectoire
 	 * ou pas de pièce à prendre
 	 */
 	private boolean isThereMaxOnePieceOnItinerary(Coord toMovePieceCoord, Coord targetSquareCoord) {
 		List<Coord> itinerary = this.implementor.getCoordsOnItinerary(toMovePieceCoord, targetSquareCoord);
-
-		return itinerary.size() == 0 || (itinerary.size() == 1 && this.implementor.isPiecehere(itinerary.get(0)));
+		int pieceAPrendre = 0;
+		for (Coord coord : itinerary) {
+			if (this.implementor.isPiecehere(coord) && this.implementor.getPieceColor(coord) != this.currentGamerColor) {
+				pieceAPrendre += 1;
+			} else if (this.implementor.getPieceColor(coord) == this.currentGamerColor) {
+				return false;
+			}
+		}
+		return pieceAPrendre <= 1;
 	}
 
 	/**
@@ -145,20 +153,18 @@ public class Model implements BoardGame<Coord> {
 	 */
 	private Coord getToCapturePieceCoord(Coord toMovePieceCoord, Coord targetSquareCoord) {
 		Coord toCapturePieceCoord = null;
-
 		List<Coord> itinerary = this.implementor.getCoordsOnItinerary(toMovePieceCoord, targetSquareCoord);
-
-		if (itinerary.size() == 1 && this.isThereMaxOnePieceOnItinerary(toMovePieceCoord, targetSquareCoord)) {
-			if (this.implementor.isPiecehere(itinerary.get(0))) {
-				toCapturePieceCoord = itinerary.get(0);
+		for (Coord coord : itinerary) {
+			if (this.implementor.isPiecehere(coord)) {
+				toCapturePieceCoord = coord;
 			}
 		}
 		return toCapturePieceCoord;
 	}
 
 	/**
-	 * @param initCoord
-	 * @param targetCoord
+	 * @param toMovePieceCoord
+	 * @param targetSquareCoord
 	 * @param isPieceToCapture
 	 * @return true si le déplacement est légal
 	 * (s'effectue en diagonale, avec ou sans prise)
@@ -169,6 +175,35 @@ public class Model implements BoardGame<Coord> {
 		return this.implementor.isMovePieceOk(toMovePieceCoord, targetSquareCoord, isPieceToCapture ) ;
 	}
 
+	public boolean isRaflePossible(Coord initCoord) {
+		PieceModel initPiece = this.implementor.findPiece(initCoord);
+		if (initPiece instanceof AbstractPieceModel) {
+			AbstractPieceModel abstractPiece = (AbstractPieceModel) initPiece;
+			List<Coord> rafleCoords = abstractPiece.movePossible();
+			boolean isCapturable;
+			for (Coord coord : rafleCoords) {
+				isCapturable = this.getToCapturePieceCoord(initCoord, coord) != null;
+				if (this.isThereMaxOnePieceOnItinerary(initCoord, coord)
+					&& this.isPieceMoveable(initCoord, coord)
+					&& this.isMovePiecePossible(initCoord, coord, isCapturable)
+				) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	boolean isPiecePromotable(Coord coord) {
+		System.out.println("isPiecePromotable " + this.implementor.isPiecePromotable(coord) + " " + coord);
+		return this.implementor.isPiecePromotable(coord);
+	}
+
+	boolean isPiecePromotable(char x, int y) {
+		return this.isPiecePromotable(new Coord(x, y));
+	}
+
+
 	/**
 	 * @param toMovePieceCoord
 	 * @param targetSquareCoord
@@ -176,6 +211,7 @@ public class Model implements BoardGame<Coord> {
 	 */
 	void movePiece(Coord toMovePieceCoord, Coord targetSquareCoord) { // TODO : remettre en "private" après test unitaires
 		this.implementor.movePiece(toMovePieceCoord, targetSquareCoord);
+		Coord.lastMove = targetSquareCoord;
 	}
 
 	/**
@@ -186,10 +222,14 @@ public class Model implements BoardGame<Coord> {
 		this.implementor.removePiece(toCapturePieceCoord);
 	}
 
-	void switchGamer() { // TODO : remettre en "private" après test unitaires
+	void promotePiece(Coord pieceCoord) {
+		this.implementor.promotePiece(pieceCoord);
+	}
+
+	void switchGamer() {
 		this.currentGamerColor = (PieceSquareColor.WHITE).equals(this.currentGamerColor) ?
 				PieceSquareColor.BLACK : PieceSquareColor.WHITE;
-
+		Coord.lastMove = null;
 	}
 
 

@@ -63,6 +63,7 @@ public class GuiFactory {
 		if (pieceColor != null) {
 			image = GuiFactory.createImage(pieceColor, true);
 			pieceGui = new PieceGui(image);
+			pieceGui.hasSameColorAsGamer(pieceColor);
 		}
 
 		return pieceGui;
@@ -74,9 +75,12 @@ public class GuiFactory {
 	 * la promotion consiste à changer l'image de la PieceGui
 	 */
 	public static void PromotePiece(ImageView piece, PieceSquareColor promotedPieceColor) {
-
-		// ToDo Atelier 3
-		
+		Image image = null;
+		if(piece != null){
+			image = GuiFactory.createImage(promotedPieceColor, false);
+			CheckersPieceGui pieceGui = (CheckersPieceGui) piece;
+			pieceGui.promote(image);
+		}
 	}
 	
 	/**

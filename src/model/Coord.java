@@ -9,6 +9,7 @@ package model;
  */
 public class Coord implements Comparable<Coord> {
 
+	public static Coord lastMove;
 	private char colonne; // ['a'..'j']
 	private int ligne; // [10..1]
 	static final int MAX = ModelConfig.LENGTH; // 10
@@ -36,8 +37,8 @@ public class Coord implements Comparable<Coord> {
 	 * @param coord
 	 * @return true si 'a' <= col < 'a'+MAX et 1 < lig <= MAX
 	 */
-	public static boolean coordonnees_valides(Coord coord) {
-		return ('a' <= coord.getColonne() && coord.getColonne() < 'a' + MAX && 1 < coord.getLigne()
+	public static boolean coordonneesValides(Coord coord) {
+		return ('a' <= coord.getColonne() && coord.getColonne() < 'a' + MAX && 1 <= coord.getLigne()
 				&& coord.getLigne() <= MAX);
 	}
 

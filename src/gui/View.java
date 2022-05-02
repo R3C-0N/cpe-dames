@@ -27,7 +27,7 @@ public class View extends BorderPane {
 	public View (EventHandler<MouseEvent> clicListener) {
 		super();
 
-		// les cases et le pièes sur le damier seront écoutées par l'objet
+		// les cases et le pièces sur le damier seront écoutées par l'objet
 		// passé en paramêtre au constructeur
 		board = new Board(clicListener);
 
@@ -50,9 +50,6 @@ public class View extends BorderPane {
 
 		// ajout du fond d'écran à la vue
 		this.setCenter(checkersBoard);
-
-
-		
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////// 

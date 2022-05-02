@@ -3,94 +3,60 @@ package model;
 
 import nutsAndBolts.PieceSquareColor;
 
-import java.util.LinkedList;
 import java.util.List;
+
 /**
  * @author francoiseperrin
  *
  *le mode de déplacement et de prise de la reine est différent de celui du pion
  */
-public class QueenModel implements PieceModel {
+public class QueenModel extends AbstractPieceModel {
 
 	public QueenModel(Coord coord, PieceSquareColor pieceColor) {
-		super();
-	}
-
-	private Coord coord;
-	private PieceSquareColor pieceColor;
-
-
-	@Override
-	public char getColonne() {
-		char col = 'z';
-		
-		// TODO atelier 3
-		
-		return col;
+		super(coord, pieceColor);
+		System.out.println("QueenModel");
 	}
 	
-	@Override
-	public int getLigne() {
-		int ligne = -1;
-		
-		// TODO atelier 3
-		
-		return ligne;
-	}
-	
-	@Override
-	public boolean hasThisCoord(Coord coord) {
-		boolean hasThisCoord = false;
-		
-		// TODO atelier 3
-		
-		return hasThisCoord;
-	}
-
-	@Override
-	public void move(Coord coord) {
-		
-		// TODO atelier 3
-		
-	}
-
-	@Override
-	public PieceSquareColor getPieceColor() {
-		PieceSquareColor pieceSquareColor = null;
-		
-		// TODO atelier 3
-		
-		return pieceSquareColor;
-	}
-
-	@Override
-	public List<Coord> getCoordsOnItinerary(Coord targetCoord) {
-
-		List<Coord> coordsOnItinery = new LinkedList<Coord>(); 
-		
-		// TODO atelier 3
-		
-		return coordsOnItinery;
-	}
-
-
-	
-	@Override
 	public boolean isMoveOk(Coord targetCoord, boolean isPieceToCapture) {
-		boolean ret = false;
-		
-		// TODO atelier 3
-		
-		return ret;
+		int colDistance = Math.abs(targetCoord.getColonne() - this.getColonne());
+		int ligDistance = Math.abs(targetCoord.getLigne() - this.getLigne());
+		System.out.println("QueenModel isMoveOk " + colDistance + " " + ligDistance);
+		return colDistance == ligDistance;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
-	public String toString() {
-		return " ["+pieceColor.toString().charAt(0) + coord + "]";
+	public List<Coord> movePossible() {
+		char x = this.coord.getColonne();
+		int y = this.coord.getLigne();
+		Coord coord;
+		List<Coord> listCoord = new java.util.ArrayList<Coord>();
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 20; j++) {
+				coord = new Coord(x, y);
+				switch (i) {
+					case 0:
+						coord = new Coord((char) (x+j), y+j);
+						break;
+					case 1:
+						coord = new Coord((char) (x+j), y-j);
+						break;
+					case 2:
+						coord = new Coord((char) (x-j), y+j);
+						break;
+					case 3:
+						coord = new Coord((char) (x-j), y-j);
+						break;
+				}
+				if (Coord.coordonneesValides(coord)) {
+					listCoord.add(coord);
+				}
+			}
+		}
+		return listCoord;
 	}
 
+	@Override
+	public boolean isPromotable() {
+		return false;
+	}
 }
-

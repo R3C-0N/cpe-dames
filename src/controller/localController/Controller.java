@@ -112,7 +112,7 @@ public class Controller implements Mediator, BoardGame<Integer>, EventHandler<Mo
 		int targetSquareIndex = square.getSquareCoord();
 
 		// Le controller va invoquer la méthode moveCapturePromotion() du model
-		// et si le model confirme que la pièe a bien été déplacée à cet endroit,
+		// et si le model confirme que la pièce a bien été déplacée à cet endroit,
 		// il invoquera une méthode de la view pour la rafraichir
 		this.moveCapturePromote(this.getToMovePieceIndex(), targetSquareIndex);
 
